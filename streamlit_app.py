@@ -8,14 +8,14 @@ def main():
 
     st.set_page_config(
         page_title="My Great ChatGPT",
-        page_icon="🤗"
+        page_icon="🐴"
     )
-    st.header("My Great ChatGPT 🤗")
+    st.header("ツォクトモンゴル乗馬ツアーのAIチャットボット🐴")
 
     # チャット履歴の初期化
     if "messages" not in st.session_state:
         st.session_state.messages = [
-            SystemMessage(content="You are a helpful assistant.")
+            SystemMessage(content="ご質問を入力ください。QAを元にAIが回答いたします。")
         ]
 
     # サイドバーのタイトルを表示
@@ -36,7 +36,7 @@ def main():
         if submit_button and user_input:
             # ユーザーが入力し、Submitボタンが押された場合に実行されるコード
             st.session_state.messages.append(HumanMessage(content=user_input))
-            with st.spinner("ChatGPT is typing ..."):
+            with st.spinner("お馬さんが考えています...."):
                 response = llm(st.session_state.messages)
             st.session_state.messages.append(AIMessage(content=response.content))
 
