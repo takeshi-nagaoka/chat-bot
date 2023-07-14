@@ -1,16 +1,10 @@
-import os
 import streamlit as st
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
 
 
 def main():
-    openai_api_key = os.environ.get("OPENAI_API_KEY")
-    if not openai_api_key:
-        st.error("Please set the OPENAI_API_KEY environment variable.")
-        return
-
-    llm = ChatOpenAI(openai_api_key=openai_api_key, temperature=0)
+    llm = ChatOpenAI(temperature=0)
 
     st.set_page_config(
         page_title="My Great ChatGPT",
@@ -23,6 +17,16 @@ def main():
         st.session_state.messages = [
             SystemMessage(content="You are a helpful assistant.")
         ]
+
+    # サイドバーのタイトルを表示
+    st.sidebar.title("Options")
+
+    def init_messages():
+        clear_button = st.sidebar.button("Clear Conversation", key="clear")
+        if clear_button:
+            st.session_state.messages = []
+
+    init_messages()
 
     # ユーザーの入力を監視
     with st.form(key='my_form', clear_on_submit=True):
@@ -47,6 +51,10 @@ def main():
                 st.markdown(message.content)
         else:  # isinstance(message, SystemMessage):
             st.write(f"System message: {message.content}")
+
+    # メッセージ削除ボタンの処理
+    if st.sidebar.button("Delete All Messages"):
+        st.session_state.messages = []
 
 
 if __name__ == '__main__':
