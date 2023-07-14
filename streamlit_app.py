@@ -4,6 +4,8 @@ from langchain.schema import SystemMessage, HumanMessage, AIMessage
 import requests
 from bs4 import BeautifulSoup
 
+# CSSファイルの読み込み
+st.markdown('<link rel="stylesheet" href="styles.css">', unsafe_allow_html=True)
 
 def fetch_data_from_url(url):
     response = requests.get(url)
