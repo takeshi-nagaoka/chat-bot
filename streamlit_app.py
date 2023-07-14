@@ -32,7 +32,7 @@ def main():
     llm = ChatOpenAI(temperature=0)
 
     st.set_page_config(
-        page_title="My Great ChatGPT",
+        page_title="ツォクトモンゴル乗馬ツアーのAIチャットボット",
         page_icon="🐴"
     )
     st.header("ツォクトモンゴル乗馬ツアーのAIチャットボット🐴")
