@@ -1,10 +1,16 @@
+import os
 import streamlit as st
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
 
 
 def main():
-    llm = ChatOpenAI(temperature=0)
+    openai_api_key = os.environ.get("OPENAI_API_KEY")
+    if not openai_api_key:
+        st.error("Please set the OPENAI_API_KEY environment variable.")
+        return
+
+    llm = ChatOpenAI(openai_api_key=openai_api_key, temperature=0)
 
     st.set_page_config(
         page_title="My Great ChatGPT",
@@ -17,18 +23,6 @@ def main():
         st.session_state.messages = [
             SystemMessage(content="You are a helpful assistant.")
         ]
-        st.session_state.costs = []
-
-    # サイドバーのタイトルを表示
-    st.sidebar.title("Options")
-
-    def init_messages():
-        clear_button = st.sidebar.button("チャット内容を削除", key="clear")
-        if clear_button:
-            st.session_state.messages = []
-            st.session_state.costs = []
-
-    init_messages()
 
     # ユーザーの入力を監視
     with st.form(key='my_form', clear_on_submit=True):
