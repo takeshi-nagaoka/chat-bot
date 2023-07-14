@@ -4,9 +4,6 @@ from langchain.schema import SystemMessage, HumanMessage, AIMessage
 import requests
 from bs4 import BeautifulSoup
 
-# CSSファイルの読み込み
-st.markdown('<link rel="stylesheet" href="styles.css">', unsafe_allow_html=True)
-
 def fetch_data_from_url(url):
     response = requests.get(url)
     if response.status_code == 200:
@@ -37,6 +34,9 @@ def main():
         page_title="ツォクトモンゴル乗馬ツアーのAIチャットボット",
         page_icon="🐴"
     )
+    # CSSファイルの読み込み
+    st.markdown('<link rel="stylesheet" href="styles.css">', unsafe_allow_html=True)
+
     st.header("ツォクトモンゴル乗馬ツアーのAIチャットボット🐴")
 
     # チャット履歴の初期化
