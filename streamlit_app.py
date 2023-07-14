@@ -89,10 +89,10 @@ def main():
     for message in messages:
         if isinstance(message, AIMessage):
             with st.chat_message('assistant'):
-                if hasattr(message.content, "content"):
-                    st.markdown(message.content.content)
-                else:
+                if isinstance(message.content, str):
                     st.write(message.content)
+                else:
+                    st.markdown(message.content.content)
         elif isinstance(message, HumanMessage):
             with st.chat_message('user'):
                 st.markdown(message.content)
