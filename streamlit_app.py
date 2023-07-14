@@ -25,7 +25,7 @@ def generate_response(parsed_data, user_input):
             answer_tag = tag.find_next_sibling("p")
             if answer_tag:
                 return f"{tag.text}\n\n{answer_tag.text.strip()}"
-    return "関連する情報が見つかりませんでした。"
+    return None
 
 
 def main():
@@ -72,6 +72,11 @@ def main():
 
                 # 解析したデータを使用して回答を生成
                 response = generate_response(parsed_data, user_input)
+
+                if response is None:
+                    # 関連する情報が見つからなかった場合、GPTに回答を生成させる
+                    with st.spinner("お馬さんが考えています...."):
+                        response = llm(st.session_state.messages)
 
                 st.session_state.messages.append(AIMessage(content=response))
     else:
