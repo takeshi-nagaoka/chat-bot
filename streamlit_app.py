@@ -92,11 +92,11 @@ def main():
                 if isinstance(message.content, str):
                     st.write(message.content)
                 else:
-                    st.markdown(message.content.content)
+                    st.markdown(message.content)
         elif isinstance(message, HumanMessage):
             with st.chat_message('user'):
                 st.markdown(message.content)
-        else:  # isinstance(message, SystemMessage):
+        elif isinstance(message, SystemMessage):
             st.write(f"System message: {message.content}")
 
 
