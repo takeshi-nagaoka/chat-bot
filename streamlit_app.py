@@ -2,6 +2,7 @@ import streamlit as st
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
 import requests
+from bs4 import BeautifulSoup
 
 
 def fetch_data_from_url(url):
@@ -10,6 +11,28 @@ def fetch_data_from_url(url):
         return response.text
     else:
         return None
+
+
+def parse_data(data):
+    # データの解析ロジックを実装
+    # ここでは単純にHTMLのテキストを返す例としています
+    soup = BeautifulSoup(data, "html.parser")
+    text = soup.get_text()
+    return text
+
+
+def generate_response(parsed_data, user_input):
+    # 解析したデータを使用して回答を生成するロジックを実装
+    # ここでは単純にユーザーの質問に含まれるキーワードを検索し、関連するテキストを返す例としています
+    keywords = user_input.split()
+    response = ""
+    for keyword in keywords:
+        if keyword in parsed_data:
+            response += keyword + "が見つかりました。\n"
+    if response:
+        return response
+    else:
+        return "関連する情報が見つかりませんでした。"
 
 
 def main():
@@ -41,6 +64,9 @@ def main():
     url = "https://mongol-jyouba-gakkou.com/attention"
     data = fetch_data_from_url(url)
 
+    # データの解析
+    parsed_data = parse_data(data)
+
     # ユーザーの入力を監視
     with st.form(key='my_form', clear_on_submit=True):
         user_input = st.text_area(label='Message: ', key='input', height=100, value='')
@@ -50,8 +76,8 @@ def main():
             # ユーザーが入力し、Submitボタンが押された場合に実行されるコード
             st.session_state.messages.append(HumanMessage(content=user_input))
 
-            # URLの内容を使用して回答を生成
-            response = generate_response(data, user_input)
+            # 解析したデータを使用して回答を生成
+            response = generate_response(parsed_data, user_input)
 
             st.session_state.messages.append(AIMessage(content=response))
 
@@ -66,12 +92,6 @@ def main():
                 st.markdown(message.content)
         else:  # isinstance(message, SystemMessage):
             st.write(f"System message: {message.content}")
-
-
-def generate_response(data, user_input):
-    # URLの内容を使用して回答を生成するロジックを実装
-    # ここでは単純にURLの内容をそのまま返す例としています
-    return data
 
 
 if __name__ == '__main__':
