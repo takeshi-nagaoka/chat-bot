@@ -90,7 +90,7 @@ def main():
         if isinstance(message, AIMessage):
             with st.chat_message('assistant'):
                 if message.content:
-                    st.markdown(message.content)
+                    st.markdown(message.content.content)
         elif isinstance(message, HumanMessage):
             with st.chat_message('user'):
                 st.markdown(message.content)
