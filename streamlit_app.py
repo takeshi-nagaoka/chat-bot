@@ -14,16 +14,12 @@ def fetch_data_from_url(url):
 
 
 def parse_data(data):
-    # データの解析ロジックを実装
-    # ここでは単純にHTMLのテキストを返す例としています
     soup = BeautifulSoup(data, "html.parser")
     text = soup.get_text()
     return text
 
 
 def generate_response(parsed_data, user_input):
-    # 解析したデータを使用して回答を生成するロジックを実装
-    # ここでは単純にユーザーの質問に含まれるキーワードを検索し、関連するテキストを返す例としています
     keywords = user_input.split()
     response = ""
     for keyword in keywords:
@@ -64,22 +60,25 @@ def main():
     url = "https://mongol-jyouba-gakkou.com/attention"
     data = fetch_data_from_url(url)
 
-    # データの解析
-    parsed_data = parse_data(data)
+    if data:
+        # データの解析
+        parsed_data = parse_data(data)
 
-    # ユーザーの入力を監視
-    with st.form(key='my_form', clear_on_submit=True):
-        user_input = st.text_area(label='Message: ', key='input', height=100, value='')
-        submit_button = st.form_submit_button(label='Send')
+        # ユーザーの入力を監視
+        with st.form(key='my_form', clear_on_submit=True):
+            user_input = st.text_area(label='Message: ', key='input', height=100, value='')
+            submit_button = st.form_submit_button(label='Send')
 
-        if submit_button and user_input:
-            # ユーザーが入力し、Submitボタンが押された場合に実行されるコード
-            st.session_state.messages.append(HumanMessage(content=user_input))
+            if submit_button and user_input:
+                # ユーザーが入力し、Submitボタンが押された場合に実行されるコード
+                st.session_state.messages.append(HumanMessage(content=user_input))
 
-            # 解析したデータを使用して回答を生成
-            response = generate_response(parsed_data, user_input)
+                # 解析したデータを使用して回答を生成
+                response = generate_response(parsed_data, user_input)
 
-            st.session_state.messages.append(AIMessage(content=response))
+                st.session_state.messages.append(AIMessage(content=response))
+    else:
+        st.write("データの取得に失敗しました。")
 
     # チャット履歴の表示
     messages = st.session_state.get('messages', [])
