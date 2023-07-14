@@ -30,13 +30,13 @@ def main():
 
     # ユーザーの入力を監視
     with st.form(key='my_form', clear_on_submit=True):
-        user_input = st.text_input(label='Message: ', key='input', height=100)
+        user_input = st.text_area(label='Message: ', key='input', height=100, value='')
         submit_button = st.form_submit_button(label='Send')
 
         if submit_button and user_input:
             # ユーザーが入力し、Submitボタンが押された場合に実行されるコード
             st.session_state.messages.append(HumanMessage(content=user_input))
-            with st.spinner("お馬さんが一生懸命考えています...."):
+            with st.spinner("お馬さんが考えています...."):
                 response = llm(st.session_state.messages)
             st.session_state.messages.append(AIMessage(content=response.content))
 
