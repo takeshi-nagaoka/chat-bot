@@ -24,7 +24,7 @@ def generate_response(parsed_data, user_input):
         if user_input in tag.text:
             answer_tag = tag.find_next_sibling("p")
             if answer_tag:
-                return answer_tag.text.strip()
+                return f"{tag.text}\n\n{answer_tag.text.strip()}"
     return "関連する情報が見つかりませんでした。"
 
 
