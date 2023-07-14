@@ -15,20 +15,17 @@ def fetch_data_from_url(url):
 
 def parse_data(data):
     soup = BeautifulSoup(data, "html.parser")
-    text = soup.get_text()
-    return text
+    return soup
 
 
 def generate_response(parsed_data, user_input):
-    keywords = user_input.split()
-    response = ""
-    for keyword in keywords:
-        if keyword in parsed_data:
-            response += keyword + "が見つかりました。\n"
-    if response:
-        return response
-    else:
-        return "関連する情報が見つかりませんでした。"
+    question_tags = parsed_data.find_all("h4")
+    for tag in question_tags:
+        if user_input in tag.text:
+            answer_tag = tag.find_next_sibling("p")
+            if answer_tag:
+                return answer_tag.text.strip()
+    return "関連する情報が見つかりませんでした。"
 
 
 def main():
