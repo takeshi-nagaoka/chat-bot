@@ -75,12 +75,13 @@ def main():
 
                 if response is None:
                     # 関連する情報が見つからなかった場合、GPTに回答を生成させる
-                    with st.spinner("お馬さんが考えています...."):
+                    with st.spinner("お馬さんが一生懸命考えています...."):
                         response = llm(st.session_state.messages)
 
                     # AIMessageのコンテンツを修正
                     response_message_content = MessageContent(content=response.content)
-                    st.session_state.messages.append(AIMessage(content=response_message_content))
+                    response_message = AIMessage(content=response_message_content)
+                    st.session_state.messages.append(response_message)
 
     else:
         st.write("データの取得に失敗しました。")
@@ -90,7 +91,7 @@ def main():
     for message in messages:
         if isinstance(message, AIMessage):
             with st.chat_message('assistant'):
-                st.markdown(message.content)
+                st.markdown(message.content.content)
         elif isinstance(message, HumanMessage):
             with st.chat_message('user'):
                 st.markdown(message.content)
