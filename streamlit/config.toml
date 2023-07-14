@@ -1,3 +1,2 @@
 [server]
 hide_github_banner = true
-command = "streamlit run main.py"
