@@ -57,7 +57,7 @@ def main():
 
                 else:
                     with st.spinner("関連する情報を検索中..."):
-                        st.session_state.messages.append(AIMessage(content=response))
+                        st.session_state.messages.append(AIMessage(content=str(response)))
 
     else:
         st.write("データの取得に失敗しました。")
