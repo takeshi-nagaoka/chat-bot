@@ -22,7 +22,7 @@ def main():
     st.sidebar.title("Options")
 
     def init_messages():
-        clear_button = st.sidebar.button("Clear Conversation", key="clear")
+        clear_button = st.sidebar.button("チャット履歴を削除", key="clear")
         if clear_button:
             st.session_state.messages = []
 
@@ -51,10 +51,6 @@ def main():
                 st.markdown(message.content)
         else:  # isinstance(message, SystemMessage):
             st.write(f"System message: {message.content}")
-
-    # メッセージ削除ボタンの処理
-    if st.sidebar.button("Delete All Messages"):
-        st.session_state.messages = []
 
 
 if __name__ == '__main__':
