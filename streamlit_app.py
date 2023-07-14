@@ -1,6 +1,6 @@
 import streamlit as st
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
+from langchain.schema import SystemMessage, HumanMessage, AIMessage
 import requests
 from bs4 import BeautifulSoup
 
@@ -79,6 +79,10 @@ def main():
                         response = llm(st.session_state.messages)
 
                     st.session_state.messages.append(AIMessage(content=response.content))
+
+                else:
+                    with st.spinner("関連する情報を検索中..."):
+                        st.session_state.messages.append(AIMessage(content=response))
 
     else:
         st.write("データの取得に失敗しました。")
