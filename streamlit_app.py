@@ -1,6 +1,6 @@
 import streamlit as st
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
+from langchain.schema import (SystemMessage, HumanMessage, AIMessage, MessageContent)
 import requests
 from bs4 import BeautifulSoup
 
@@ -78,7 +78,10 @@ def main():
                     with st.spinner("お馬さんが考えています...."):
                         response = llm(st.session_state.messages)
 
-                st.session_state.messages.append(AIMessage(content=response))
+                    # AIMessageのコンテンツを修正
+                    response_message_content = MessageContent(content=response.content)
+                    st.session_state.messages.append(AIMessage(content=response_message_content))
+
     else:
         st.write("データの取得に失敗しました。")
 
